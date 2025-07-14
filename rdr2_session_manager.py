@@ -17,17 +17,17 @@ class RDR2SessionManager:
         self.root.title("🎮 RDR2 Session Manager")
         self.root.geometry("900x700")
         self.root.configure(bg='#1a1a1a')
-        
+
         # Hacer la ventana no redimensionable para mejor portabilidad
         self.root.resizable(True, True)  # Permitir redimensionar para mejor UX
         self.root.minsize(800, 600)      # Tamaño mínimo
-        
+
         # Centrar ventana en pantalla
         self.center_window()
-        
+
         # Configuración de estilo
         self.setup_styles()
-        
+
         # Variables
         self.game_path = tk.StringVar()
         # Guardar configuración en el mismo directorio del ejecutable
@@ -78,7 +78,10 @@ class RDR2SessionManager:
  <contentChangeSets itemType="CDataFileMgr__ContentChangeSet" />
  <patchFiles />
 </CDataFileMgr__ContentsOfDataFileXml>{session_key}"""
-        
+
+        # Discord link desde variable de entorno o valor por defecto
+        self.discord_url = os.environ.get("DISCORD_URL", "https://discord.gg/8HTjHDJ86x")
+
         # Inicializar
         self.load_sessions()
         self.detect_game_path()
@@ -272,10 +275,13 @@ class RDR2SessionManager:
         title_label = ttk.Label(title_frame, text="🎮 RDR2 SESSION MANAGER", style='Title.TLabel')
         title_label.grid(row=0, column=0, sticky=tk.W)
 
-        # Botón de créditos alineado a la derecha
+        # Botón de créditos y Discord alineados a la derecha
         credits_btn = ttk.Button(title_frame, text="ℹ️ Créditos", 
             command=self.show_credits, style='Secondary.TButton')
-        credits_btn.grid(row=0, column=1, sticky=tk.E, padx=(30, 0))
+        credits_btn.grid(row=0, column=1, sticky=tk.E, padx=(0, 0))
+
+        discord_btn = ttk.Button(title_frame, text="🟦 Discord", command=self.open_discord, style='Secondary.TButton')
+        discord_btn.grid(row=0, column=2, sticky=tk.E, padx=(8, 0))
 
         # Expandir el espacio entre el título y el botón
         title_frame.columnconfigure(0, weight=1)
@@ -331,9 +337,13 @@ class RDR2SessionManager:
         input_grid.columnconfigure(0, weight=1)
         input_grid.columnconfigure(1, weight=1)
         
-        create_btn = ttk.Button(create_frame, text="✨ Crear Sesión", 
+        # Botón para crear sesión alineado a la derecha
+        btns_frame = ttk.Frame(create_frame, style='TFrame')
+        btns_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.E), pady=(6, 0))
+
+        create_btn = ttk.Button(btns_frame, text="✨ Crear Sesión", 
                                command=self.create_session, style='Accent.TButton')
-        create_btn.grid(row=1, column=0, pady=(6, 0))
+        create_btn.pack(side=tk.RIGHT)
         
         # Frame para administrar sesiones (mejorado)
         manage_frame = ttk.LabelFrame(main_frame, text="🎛️ Administrar Sesiones", 
@@ -454,6 +464,11 @@ class RDR2SessionManager:
         path = filedialog.askdirectory(title="Seleccionar directorio x64/data de RDR2")
         if path:
             self.game_path.set(path)
+    
+    def open_discord(self):
+        """Abre el canal de Discord en el navegador"""
+        import webbrowser
+        webbrowser.open_new_tab(self.discord_url)
             
     def load_sessions(self):
         """Carga las sesiones guardadas desde el archivo JSON"""
