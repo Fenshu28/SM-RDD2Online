@@ -1,0 +1,99 @@
+name: 🚀 Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers en tags que empiecen con 'v' (ej: v1.0.0)
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        
+    - name: 🔨 Build executable
+      run: |
+        pyinstaller --onefile --noconsole --name=RDR2_Session_Manager --optimize=2 --clean rdr2_session_manager.py
+        
+    - name: 🔐 Calculate MD5
+      run: |
+        $md5 = Get-FileHash -Algorithm MD5 "dist/RDR2_Session_Manager.exe"
+        $md5.Hash.ToLower() + "  RDR2_Session_Manager.exe" | Out-File -FilePath "dist/RDR2_Session_Manager.exe.md5" -Encoding ASCII
+        Write-Output "MD5: $($md5.Hash.ToLower())"
+        
+    - name: 📄 Create release info
+      run: |
+        $version = "${{ github.ref_name }}"
+        $date = Get-Date -Format "yyyy-MM-dd"
+        $size = [math]::Round((Get-Item "dist/RDR2_Session_Manager.exe").Length / 1MB, 2)
+        $md5 = (Get-Content "dist/RDR2_Session_Manager.exe.md5").Split()[0]
+        
+        $releaseInfo = @"
+        # 🎮 RDR2 Session Manager $version
+        
+        ## 📦 Descarga
+        - **RDR2_Session_Manager.exe** ($size MB)
+        - **RDR2_Session_Manager.exe.md5** (verificación)
+        
+        ## 🔐 Verificación MD5
+        ``````
+        $md5
+        ``````
+        
+        ## 🚀 Instalación
+        1. Descarga el archivo .exe
+        2. Haz doble clic para ejecutar
+        3. ¡Listo! Es 100% portable
+        
+        ## ⚠️ Nota de Seguridad
+        Si Windows Defender bloquea el archivo, es normal para ejecutables nuevos. 
+        Verifica el MD5 para confirmar la integridad del archivo.
+        
+        ## 🆕 Cambios en esta versión
+        - Versión inicial del RDR2 Session Manager
+        - Interfaz moderna con tema gaming
+        - Detección automática de RDR2 (Steam/Epic/Rockstar)
+        - Gestión completa de sesiones privadas
+        - Botón de Discord integrado
+        - Modo completamente portable
+        
+        ## 💬 Soporte
+        ¿Problemas o sugerencias? Únete al Discord o abre un issue.
+        "@
+        
+        $releaseInfo | Out-File -FilePath "RELEASE_NOTES.md" -Encoding UTF8
+        
+    - name: 🎯 Upload to Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          dist/RDR2_Session_Manager.exe
+          dist/RDR2_Session_Manager.exe.md5
+        body_path: RELEASE_NOTES.md
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: 📊 Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: RDR2-Session-Manager-${{ github.ref_name }}
+        path: |
+          dist/RDR2_Session_Manager.exe
+          dist/RDR2_Session_Manager.exe.md5
