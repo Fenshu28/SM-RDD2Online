@@ -594,27 +594,33 @@ class RDR2SessionManager:
 
     def show_credits(self):
         """Muestra información de créditos"""
-        credits_msg = """🎮 RDR2 Session Manager v1.0
+        version = "0.1"
+        credits_msg = f"""🎮 RDR2 Session Manager v{version}
 
-    👨‍💻 DESARROLLADOR:
-    • Tu nombre aquí
+        👨‍💻 DESARROLLADOR:
+        • Fenshu28 / RacingAudio
 
-    🛠️ TECNOLOGÍAS:
-    • Python 3.x
-    • Tkinter GUI
-    • JSON Storage
+        🛠️ TECNOLOGÍAS:
+        • Python 3.x
+        • Tkinter GUI
+        • JSON Storage
 
-    📝 DESCRIPCIÓN:
-    Herramienta para gestionar sesiones privadas 
-    de Red Dead Redemption 2 de forma sencilla.
+        📝 DESCRIPCIÓN:
+        Herramienta moderna para gestionar sesiones privadas 
+        de Red Dead Redemption 2 de forma rápida y segura.
 
-    🎯 CARACTERÍSTICAS:
-    • Detección automática del juego
-    • Interfaz moderna y fácil de usar
-    • Gestión completa de sesiones
-    • Soporte para múltiples plataformas
+        🚀 FUNCIONALIDADES DESTACADAS:
+        • Detección automática de la instalación de RDR2
+        • Interfaz intuitiva y personalizable
+        • Creación, activación y eliminación de sesiones privadas
+        • Cambio instantáneo entre modo público y privado
+        • Atajos de teclado para mayor productividad
+        • Soporte multiplataforma (Steam y Epic)
+        • Guardado seguro de tus sesiones
 
-    💡 ¡Gracias por usar RDR2 Session Manager!"""
+        💬 ¿Dudas o sugerencias? Únete al canal de Discord!!
+
+        ¡Gracias por usar RDR2 Session Manager!"""
         
         messagebox.showinfo("ℹ️ Créditos", credits_msg)
             
