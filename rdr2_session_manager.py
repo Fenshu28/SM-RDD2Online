@@ -274,16 +274,17 @@ class RDR2SessionManager:
 
         # Botón de créditos alineado a la derecha
         credits_btn = ttk.Button(title_frame, text="ℹ️ Créditos", 
-                command=self.show_credits, style='Secondary.TButton')
+            command=self.show_credits, style='Secondary.TButton')
         credits_btn.grid(row=0, column=1, sticky=tk.E, padx=(30, 0))
 
         # Expandir el espacio entre el título y el botón
         title_frame.columnconfigure(0, weight=1)
         title_frame.columnconfigure(1, weight=0)
         
+        # Subtítulo debajo del título, alineado a la izquierda
         subtitle_label = ttk.Label(title_frame, text="Gestiona tus sesiones privadas con estilo", 
-                                  font=('Segoe UI', 9), foreground='#cccccc')
-        subtitle_label.grid(row=1, column=0, pady=(5, 0))
+                      font=('Segoe UI', 9), foreground='#cccccc')
+        subtitle_label.grid(row=1, column=0, sticky=tk.W, pady=(5, 0))
         
         # Configuración de ruta del juego (mejorada)
         path_frame = ttk.LabelFrame(main_frame, text="🎯 Configuración del Juego", 
