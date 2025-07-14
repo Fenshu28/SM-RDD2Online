@@ -270,7 +270,16 @@ class RDR2SessionManager:
         title_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 30))
         
         title_label = ttk.Label(title_frame, text="🎮 RDR2 SESSION MANAGER", style='Title.TLabel')
-        title_label.grid(row=0, column=0)
+        title_label.grid(row=0, column=0, sticky=tk.W)
+
+        # Botón de créditos alineado a la derecha
+        credits_btn = ttk.Button(title_frame, text="ℹ️ Créditos", 
+                command=self.show_credits, style='Secondary.TButton')
+        credits_btn.grid(row=0, column=1, sticky=tk.E, padx=(30, 0))
+
+        # Expandir el espacio entre el título y el botón
+        title_frame.columnconfigure(0, weight=1)
+        title_frame.columnconfigure(1, weight=0)
         
         subtitle_label = ttk.Label(title_frame, text="Gestiona tus sesiones privadas con estilo", 
                                   font=('Segoe UI', 9), foreground='#cccccc')
@@ -560,6 +569,32 @@ class RDR2SessionManager:
             
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo activar el modo público: {str(e)}")
+
+    def show_credits(self):
+        """Muestra información de créditos"""
+        credits_msg = """🎮 RDR2 Session Manager v1.0
+
+    👨‍💻 DESARROLLADOR:
+    • Tu nombre aquí
+
+    🛠️ TECNOLOGÍAS:
+    • Python 3.x
+    • Tkinter GUI
+    • JSON Storage
+
+    📝 DESCRIPCIÓN:
+    Herramienta para gestionar sesiones privadas 
+    de Red Dead Redemption 2 de forma sencilla.
+
+    🎯 CARACTERÍSTICAS:
+    • Detección automática del juego
+    • Interfaz moderna y fácil de usar
+    • Gestión completa de sesiones
+    • Soporte para múltiples plataformas
+
+    💡 ¡Gracias por usar RDR2 Session Manager!"""
+        
+        messagebox.showinfo("ℹ️ Créditos", credits_msg)
             
     def run(self):
         """Ejecuta la aplicación con manejo de errores"""
@@ -568,7 +603,7 @@ class RDR2SessionManager:
             self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
             
             # Mostrar mensaje de bienvenida si es la primera vez
-            if not self.sessions and not self.game_path.get():
+            if not self.sessions:
                 self.show_welcome_message()
             
             # Iniciar el loop principal
