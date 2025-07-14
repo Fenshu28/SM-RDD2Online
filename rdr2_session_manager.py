@@ -31,7 +31,14 @@ class RDR2SessionManager:
         # Variables
         self.game_path = tk.StringVar()
         # Guardar configuración en el mismo directorio del ejecutable
-        self.sessions_file = self.get_config_path("rdr2_sessions.json")
+        # Guardar configuración en una carpeta oculta del usuario (AppData/Roaming)
+        self.sessions_file = os.path.join(
+            os.environ.get("APPDATA", os.path.expanduser("~")),
+            "RDR2SessionManager",
+            "rdr2_sessions.json"
+        )
+        # Crear la carpeta si no existe
+        os.makedirs(os.path.dirname(self.sessions_file), exist_ok=True)
         self.startup_template = """<?xml version="1.0" encoding="UTF-8"?>
 <CDataFileMgr__ContentsOfDataFileXml>
  <disabledFiles />
