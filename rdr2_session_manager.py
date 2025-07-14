@@ -575,8 +575,10 @@ class RDR2SessionManager:
             return
             
         item = self.sessions_tree.item(selection[0])
-        session_name = item['values'][0]
-        
+        session_name_display = item['values'][0]
+        # Quitar el emoji y espacios del nombre
+        session_name = session_name_display.replace('🎮', '', 1).strip()
+
         if messagebox.askyesno("Confirmar", f"¿Está seguro de eliminar la sesión '{session_name}'?"):
             del self.sessions[session_name]
             self.save_sessions()
