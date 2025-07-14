@@ -280,7 +280,7 @@ class RDR2SessionManager:
             command=self.show_credits, style='Secondary.TButton')
         credits_btn.grid(row=0, column=1, sticky=tk.E, padx=(0, 0))
 
-        discord_btn = ttk.Button(title_frame, text="🟦 Discord", command=self.open_discord, style='Secondary.TButton')
+        discord_btn = ttk.Button(title_frame, text="📨 Discord", command=self.open_discord, style='Secondary.TButton')
         discord_btn.grid(row=0, column=2, sticky=tk.E, padx=(8, 0))
 
         # Expandir el espacio entre el título y el botón
