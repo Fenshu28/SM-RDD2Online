@@ -261,13 +261,13 @@ class RDR2SessionManager:
                 return None
             
     def create_ui(self):
-        # Frame principal con padding mejorado
-        main_frame = ttk.Frame(self.root, padding="30", style='TFrame')
+        # Frame principal con padding optimizado
+        main_frame = ttk.Frame(self.root, padding="10 10 10 10", style='TFrame')
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
         # Título principal con estilo gaming
         title_frame = ttk.Frame(main_frame, style='TFrame')
-        title_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 30))
+        title_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
         
         title_label = ttk.Label(title_frame, text="🎮 RDR2 SESSION MANAGER", style='Title.TLabel')
         title_label.grid(row=0, column=0, sticky=tk.W)
@@ -284,17 +284,17 @@ class RDR2SessionManager:
         # Subtítulo debajo del título, alineado a la izquierda
         subtitle_label = ttk.Label(title_frame, text="Gestiona tus sesiones privadas con estilo", 
                       font=('Segoe UI', 9), foreground='#cccccc')
-        subtitle_label.grid(row=1, column=0, sticky=tk.W, pady=(5, 0))
+        subtitle_label.grid(row=1, column=0, sticky=tk.W, pady=(2, 0))
         
         # Configuración de ruta del juego (mejorada)
         path_frame = ttk.LabelFrame(main_frame, text="🎯 Configuración del Juego", 
-                                   padding="20", style='Modern.TLabelframe')
-        path_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 25))
+                                   padding="8 8 8 8", style='Modern.TLabelframe')
+        path_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 8))
         
-        ttk.Label(path_frame, text="Ruta de instalación de RDR2:", style='Header.TLabel').grid(row=0, column=0, sticky=tk.W, pady=(0, 8))
+        ttk.Label(path_frame, text="Ruta de instalación de RDR2:", style='Header.TLabel').grid(row=0, column=0, sticky=tk.W, pady=(0, 4))
         
         path_entry_frame = ttk.Frame(path_frame, style='TFrame')
-        path_entry_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 5))
+        path_entry_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 2))
         
         path_entry = ttk.Entry(path_entry_frame, textvariable=self.game_path, width=65, 
                               style='Modern.TEntry', font=('Segoe UI', 9))
@@ -308,12 +308,12 @@ class RDR2SessionManager:
         
         # Frame para crear nueva sesión (mejorado)
         create_frame = ttk.LabelFrame(main_frame, text="➕ Crear Nueva Sesión", 
-                                     padding="10 10 10 10", style='Modern.TLabelframe')
-        create_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+                                     padding="8 8 8 8", style='Modern.TLabelframe')
+        create_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 8))
         
         # Grid para los campos de entrada
         input_grid = ttk.Frame(create_frame, style='TFrame')
-        input_grid.grid(row=0, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
+        input_grid.grid(row=0, column=0, sticky=(tk.W, tk.E), pady=(0, 6))
         
         ttk.Label(input_grid, text="Nombre de la sesión:", font=('Segoe UI', 9, 'bold')).grid(row=0, column=0, sticky=tk.W, padx=(0, 15))
         ttk.Label(input_grid, text="Clave de sesión:", font=('Segoe UI', 9, 'bold')).grid(row=0, column=1, sticky=tk.W)
@@ -333,17 +333,17 @@ class RDR2SessionManager:
         
         create_btn = ttk.Button(create_frame, text="✨ Crear Sesión", 
                                command=self.create_session, style='Accent.TButton')
-        create_btn.grid(row=1, column=0, pady=(10, 0))
+        create_btn.grid(row=1, column=0, pady=(6, 0))
         
         # Frame para administrar sesiones (mejorado)
         manage_frame = ttk.LabelFrame(main_frame, text="🎛️ Administrar Sesiones", 
-                                     padding="10 10 10 10", style='Modern.TLabelframe')
-        manage_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+                                     padding="8 8 8 8", style='Modern.TLabelframe')
+        manage_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 8))
 
         # Dos columnas: tabla a la izquierda, botones a la derecha
         # Container para la tabla
         table_container = ttk.Frame(manage_frame, style='TFrame')
-        table_container.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), padx=(0, 5), pady=(0, 0))
+        table_container.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), padx=(0, 2), pady=(0, 0))
 
         # Treeview mejorado
         self.sessions_tree = ttk.Treeview(table_container, columns=('name', 'key'), 
@@ -365,15 +365,15 @@ class RDR2SessionManager:
 
         # Botones de acción verticales a la derecha
         button_frame = ttk.Frame(manage_frame, style='TFrame')
-        button_frame.grid(row=0, column=1, sticky=(tk.N, tk.E), padx=(5, 0))
+        button_frame.grid(row=0, column=1, sticky=(tk.N, tk.E), padx=(2, 0))
 
         activate_btn = ttk.Button(button_frame, text="🚀 Activar Sesión", 
                                  command=self.activate_session, style='Accent.TButton')
-        activate_btn.pack(fill='x', pady=(0, 10))
+        activate_btn.pack(fill='x', pady=(0, 6))
 
         delete_btn = ttk.Button(button_frame, text="🗑️ Eliminar", 
                                command=self.delete_session, style='Danger.TButton')
-        delete_btn.pack(fill='x', pady=(0, 10))
+        delete_btn.pack(fill='x', pady=(0, 6))
 
         public_btn = ttk.Button(button_frame, text="🌐 Modo Público", 
                                command=self.activate_public_mode, style='Secondary.TButton')
@@ -386,8 +386,8 @@ class RDR2SessionManager:
         
         # Frame de estado mejorado
         status_frame = ttk.LabelFrame(main_frame, text="📊 Estado Actual", 
-                                     padding="8 8 8 8", style='Modern.TLabelframe')
-        status_frame.grid(row=4, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 5))
+                                     padding="6 6 6 6", style='Modern.TLabelframe')
+        status_frame.grid(row=4, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 2))
         
         self.status_var = tk.StringVar(value="🌐 Modo Público Activo")
         status_label = ttk.Label(status_frame, textvariable=self.status_var, style='Status.TLabel')
