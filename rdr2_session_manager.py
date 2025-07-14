@@ -549,22 +549,24 @@ class RDR2SessionManager:
         # Obtener datos de la sesión seleccionada
         item = self.sessions_tree.item(selection[0])
         session_name = item['values'][0]
-        session_key = item['values'][1]
-        
+        session_key_display = item['values'][1]
+        session_key = session_key_display.replace('🔑', '', 1).strip()
+
         # Generar archivo startup.meta
         startup_content = self.startup_template.format(session_key=session_key)
         startup_path = os.path.join(self.game_path.get(), "startup.meta")
-        
+
         try:
             with open(startup_path, 'w', encoding='utf-8') as f:
                 f.write(startup_content)
-            
+
             self.status_var.set(f"Sesión Privada Activa: {session_name}")
             messagebox.showinfo("Éxito", f"Sesión '{session_name}' activada correctamente")
-            
+
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo activar la sesión: {str(e)}")
-            
+            return
+
     def delete_session(self):
         """Elimina la sesión seleccionada"""
         selection = self.sessions_tree.selection()
